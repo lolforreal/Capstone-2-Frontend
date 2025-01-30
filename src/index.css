@@ -1,0 +1,160 @@
+/* Global Styles */
+body {
+  background-color: black;
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Centering the Homepage Content */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* Welcome Message */
+.home-container h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: red;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Buttons */
+.home-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 300px;
+}
+
+/* Button Styling */
+.home-buttons button {
+  width: 100%;
+  padding: 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: white;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.home-buttons button:nth-child(2) {
+  background-color: #28A745; /* Green for Sign In */
+}
+
+.home-buttons button:nth-child(3) {
+  background-color: #6C757D; /* Gray for Guest */
+}
+
+/* Hover Effect */
+.home-buttons button:hover {
+  background-color: yellow;
+  color: black;
+}
+
+/* Store Page Product Layout */
+.store-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/*  Make Products Appear Horizontally */
+.product-list {
+  display: flex;
+  flex-wrap: wrap; /* Ensures products wrap if screen is small */
+  justify-content: center; /* Center products in the row */
+  gap: 20px;
+  padding: 10px;
+}
+
+/*  Ensure Product Cards Have Proper Size */
+.product-card {
+  flex: 1 1 250px; /* Adjust width of each product */
+  max-width: 250px;
+  background-color: white;
+  color: black;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/*  Product Image Styling */
+.product-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/*  Product Buttons */
+.product-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.product-actions button {
+  flex: 1;
+  padding: 8px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.product-actions .view-details {
+  background-color: #007BFF;
+  color: white;
+}
+
+.product-actions .view-details:hover {
+  background-color: yellow;
+  color: black;
+}
+
+.product-actions .buy-now {
+  background-color: #28A745;
+  color: white;
+}
+
+.product-actions .buy-now:hover {
+  background-color: yellow;
+  color: black;
+}
+
+/*  Move Sign Out Button to Top Right */
+.signout-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: red;
+  color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.signout-button:hover {
+  background-color: darkred;
+  color: white;
+}

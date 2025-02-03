@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 const AuthForm = () => {
   const navigate = useNavigate();
-  const [isRegister, setIsRegister] = useState(false);
+  const location = useLocation();
+  const [isRegister, setIsRegister] = useState(location.pathname === '/register');
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [error, setError] = useState(''); // ✅ Store error messages
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,20 +19,31 @@ const AuthForm = () => {
     const payload = isRegister ? { email, username, password } : { username, password };
 
     try {
-      const response = await axios.post(`http://localhost:3001/api/auth/${endpoint}`, payload);
-      
-      if (response.data.token) {
-        // Store the token and username in localStorage
+      const response = await axios.post(`http://localhost:3001/auth/${endpoint}`, payload, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      // ✅ Clear any previous errors when successful
+      setError('');
+
+      if (isRegister && response.status === 201) {
+        console.log("✅ Registration successful! Redirecting to login...");
+        setMessage('Account created successfully! Redirecting to login...');
+        setTimeout(() => navigate('/login'), 1000);
+      } 
+      else if (!isRegister && response.data.token) {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('username', response.data.username);
-        
-        // Redirect user to store page after successful login/register
+        console.log("✅ JWT Token Stored:", response.data.token);
         navigate('/store');
       }
 
       setMessage(response.data.message);
     } catch (error) {
-      setMessage(error.response?.data?.error || 'Something went wrong');
+      // ✅ Capture backend error messages and display them
+      const errorMsg = error.response?.data?.error || 'Something went wrong';
+      console.error('❌ Error:', errorMsg);
+      setError(errorMsg);
     }
   };
 
@@ -42,6 +55,7 @@ const AuthForm = () => {
         </Link>
       </div>
       <h2 className="text-2xl font-bold mb-4">{isRegister ? 'Create Account' : 'Sign In'}</h2>
+      
       <form onSubmit={handleSubmit} className="w-80 bg-white p-6 rounded-lg shadow-md">
         {isRegister && (
           <input
@@ -69,14 +83,23 @@ const AuthForm = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit" className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+        
+        {/* ✅ Error Message Display */}
+        {error && <p className="text-red-500 mb-2">{error}</p>}
+
+        <button type="submit" className="auth-submit-button">
           {isRegister ? 'Register' : 'Login'}
         </button>
       </form>
-      <div className="mt-4 flex space-x-4">
-        <p onClick={() => setIsRegister(!isRegister)} className="cursor-pointer text-blue-600 hover:underline">
+
+      {/* Toggle and Guest Buttons */}
+      <div className="auth-buttons">
+        <button
+          onClick={() => setIsRegister(!isRegister)}
+          className={`auth-toggle-button ${isRegister ? 'signin' : 'register'}`}
+        >
           {isRegister ? 'Already have an account? Sign in' : 'Need an account? Register'}
-        </p>
+        </button>
         <button
           className="text-gray-600 hover:underline"
           onClick={() => navigate('/store')}
@@ -84,7 +107,9 @@ const AuthForm = () => {
           Continue as Guest
         </button>
       </div>
-      {message && <p className="mt-2 text-red-500">{message}</p>}
+
+      {/* ✅ Success Message Display */}
+      {message && <p className="mt-2 text-green-500">{message}</p>}
     </div>
   );
 };

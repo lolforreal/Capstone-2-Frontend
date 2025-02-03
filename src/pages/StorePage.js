@@ -8,11 +8,22 @@ const StorePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/products/electronics')
-      .then(response => response.json())
-      .then(data => setProducts(data))
-      .catch(error => console.error('Error fetching products:', error));
+    fetch('http://localhost:3001/products/electronics') // Calls your backend, which fetches from FakeStore API
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("✅ Products Fetched from FakeStore API:", data);
+        setProducts(data);
+      })
+      .catch(error => console.error('❌ Error fetching products:', error));
   }, []);
+  
+  
+  
 
   const filteredProducts = products.filter(product =>
     product.title.toLowerCase().includes(searchTerm.toLowerCase())

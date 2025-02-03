@@ -8,12 +8,14 @@ const CheckoutPage = () => {
   const product = location.state?.product;
   const [newComment, setNewComment] = useState('');
 
-  // ✅ Retrieve username from localStorage (default to 'Guest' if not logged in)
+  //  Retrieve username from localStorage (default to 'Guest' if not logged in)
   const storedUsername = localStorage.getItem('username');
   const user = storedUsername && storedUsername !== 'null' ? storedUsername : 'Guest';
 
-  // ✅ Retrieve comments from localStorage for this specific product
-  const savedComments = JSON.parse(localStorage.getItem(`comments-${product?.id}`)) || [];
+  //  Retrieve comments from localStorage for this specific product
+  console.log(`🔍 Loading comments for product ID: ${product?.id}`);
+const savedComments = JSON.parse(localStorage.getItem(`comments-${product?.id}`)) || [];
+console.log("✅ Loaded Comments:", savedComments);
   const [comments, setComments] = useState(savedComments);
 
   if (!product) {
@@ -30,7 +32,7 @@ const CheckoutPage = () => {
       const updatedComments = [...comments, { user, text: newComment }];
       setComments(updatedComments);
 
-      // ✅ Save comments in localStorage for this product
+      //  Save comments in localStorage for this product
       localStorage.setItem(`comments-${product.id}`, JSON.stringify(updatedComments));
       
       setNewComment('');
@@ -51,7 +53,7 @@ const CheckoutPage = () => {
         </div>
       </div>
       
-      {/* ✅ Comment Section (Stored Per Product) */}
+      {/*  Comment Section (Stored Per Product) */}
       <div className="comment-section">
         <h3 className="comment-title">Comments</h3>
         <textarea

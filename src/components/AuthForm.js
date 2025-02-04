@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
+const API_BASE_URL = "https://capstone-2-backend-5oxt.onrender.com"; // ✅ Update with backend URL
+
 const AuthForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -19,7 +21,7 @@ const AuthForm = () => {
     const payload = isRegister ? { email, username, password } : { username, password };
 
     try {
-      const response = await axios.post(`http://localhost:3001/auth/${endpoint}`, payload, {
+      const response = await axios.post(`${API_BASE_URL}/auth/${endpoint}`, payload, {
         headers: { 'Content-Type': 'application/json' }
       });
 
@@ -35,7 +37,7 @@ const AuthForm = () => {
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('username', response.data.username);
         console.log("✅ JWT Token Stored:", response.data.token);
-        navigate('/store');
+        navigate('/store'); // Redirect after login
       }
 
       setMessage(response.data.message);

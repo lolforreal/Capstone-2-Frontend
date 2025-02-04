@@ -8,7 +8,7 @@ const StorePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:3001/products/electronics') // Calls your backend, which fetches from FakeStore API
+    fetch('https://capstone-2-backend-5oxt.onrender.com/products/electronics') // Calls your backend, which fetches from FakeStore API
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
